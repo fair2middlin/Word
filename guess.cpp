@@ -75,6 +75,22 @@ auto wordMatch (char attempt[5], char answer[5])
                         cout << "You are a winner!" << endl;
                         exit(0);
                 }
+                for (int counter = 0; counter < 5; ++counter) 
+                {
+                        for (int counterb = 0; counterb < 5; ++counterb) 
+                        {
+                                if (attempt[counterb] == answer[counter]) 
+                                {
+                                        if (BothRow[counterb+5] != "G")
+                                        {
+                                        BothRow[counterb] = answer[counter];
+                                        BothRow[counterb+5] = "Y";
+                                        }
+                                }
+                        }
+                }
+
+
         return BothRow;
 }
 
@@ -83,7 +99,7 @@ auto UserGuess () {
         char* inputGuess = new char[5];
         std::cout << "Please enter your guess" << endl;
         cin >> inputGuess;
-        cout << "You have entered: " << inputGuess << endl;
+        //cout << "You have entered: " << inputGuess << endl;
         return inputGuess;
 }
 
@@ -94,6 +110,7 @@ char* inputGuess ;
 time_t now = time(0);
 int MO,DY,JulianDay; //MO = months DY = days JulianDay = Julian Day Number
 string* TwoRow = new string[10];
+string* UsedLetters = new string[30];
 string* Pattern =  new string[6];
 string* Color = new string[6];
 time_t ttime = time(0);
@@ -127,6 +144,10 @@ for (int TryNum=0; TryNum < 6; TryNum++ ) {
         for (int counter = 5; counter < 10; ++counter) 
         {
                 Color[TryNum] = Color[TryNum] + TwoRow[counter];
+                if (Color[TryNum] == "Y" || Color[TryNum] == "B")
+                 {
+                        UsedLetters[TryNum+(TryNum*5)] = Pattern[TryNum];
+                 } 
         }
         cout << Pattern[TryNum] << endl;
         cout << Color[TryNum] << endl;
