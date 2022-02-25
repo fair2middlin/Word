@@ -7,6 +7,7 @@
 #include <cstring>
 //#include <ios>
 //#include <limits>
+#include<map>
 
 using namespace std;
 
@@ -55,41 +56,53 @@ auto JDate ( int M, int D)
 auto wordMatch (char attempt[5], char answer[5])
 {
         int winner;
+        map<char, int> alphaBet;
         string* BothRow = new string[10];
-                for (int counter = 0; counter < 5; ++counter) 
+         for (char i = 'a'; i <= 'z'; i++)
                 {
-                        if (attempt[counter] == answer[counter])
+                alphaBet[i] = 0;
+                }
+        for (int counter = 0; counter < 5; ++counter) 
+                {
+                                for (char i = 'a'; i <= 'z'; i++)
+                                {
+                                        if (attempt[counter] == i)
+                                        {
+                                        alphaBet[i]++;
+
+                                        }
+                                }
+                        if (tolower(attempt[counter]) == tolower(answer[counter]))
                         {
-                                BothRow[counter] = answer[counter];
+                                BothRow[counter] = tolower(attempt[counter]);
                                 BothRow[counter+5] = "G";
                                 winner++;
-                        }
+                        } 
+                        else if (alphaBet[tolower(attempt[counter] ) ] > 0)
+                                {
+                                        for (int counter = 0; counter < 5; ++counter) 
+                                        {
+                                                
+                                                if ((BothRow[counter+5] != "G") && ( alphaBet[tolower(attempt[counter]) ] > 0))
+                                                {
+                                                        BothRow[counter+5] = "Y";
+                                                        attempt[counter]--;
+                                                        BothRow[counter] = tolower(attempt[counter]);
+                                                }
+                                        }
+                                }       
                         else {
-                        BothRow[counter] = attempt[counter];
-                        BothRow[counter] = "_";
+                        BothRow[counter] = tolower(attempt[counter]);
                         BothRow[counter+5] = "B";
                         }
+                         //BothRow[counter] = tolower(attempt[counter]);
                 }
                 if (winner == 5)
                 {
                         cout << "You are a winner!" << endl;
                         exit(0);
                 }
-                for (int counter = 0; counter < 5; ++counter) 
-                {
-                        for (int counterb = 0; counterb < 5; ++counterb) 
-                        {
-                                if (attempt[counterb] == answer[counter]) 
-                                {
-                                        if (BothRow[counterb+5] != "G")
-                                        {
-                                        BothRow[counterb] = answer[counter];
-                                        BothRow[counterb+5] = "Y";
-                                        }
-                                }
-                        }
-                }
-
+ 
 
         return BothRow;
 }
@@ -132,25 +145,32 @@ TheWord.erase(std::remove(TheWord.begin(), TheWord.end(), '\n'), TheWord.end());
     // copying the contents of the
     // string to char array
     strcpy(newWord, TheWord.c_str());
-
 //cout << "Today's word is " << newWord ;
-for (int TryNum=0; TryNum < 6; TryNum++ ) {
+for (int TryNum=0; TryNum < 6; TryNum++ ) 
+{
        inputGuess = UserGuess();
        TwoRow = wordMatch(inputGuess,newWord);
         for (int counter = 0; counter < 5; ++counter) 
         {
                 Pattern[TryNum] = Pattern[TryNum] + TwoRow[counter];
         }
+        UsedLetters[TryNum] = Pattern[TryNum] + UsedLetters[TryNum];
         for (int counter = 5; counter < 10; ++counter) 
         {
                 Color[TryNum] = Color[TryNum] + TwoRow[counter];
-                if (Color[TryNum] == "Y" || Color[TryNum] == "B")
-                 {
-                        UsedLetters[TryNum+(TryNum*5)] = Pattern[TryNum];
-                 } 
         }
-        cout << Pattern[TryNum] << endl;
-        cout << Color[TryNum] << endl;
+        UsedLetters[TryNum] = Color[TryNum] + UsedLetters[TryNum];
+        //cout << Pattern[TryNum] << endl;
+        //cout << Color[TryNum] << endl;
+        cout << endl << "Guesses so far: " << endl;
+        for (int counter = TryNum; counter >= 0; counter--)
+        {
+        cout << UsedLetters[counter].substr(5,10);
+        cout << endl;
+        cout << UsedLetters[counter].substr(0,5);
+        cout << endl;
+        }
+
 }
 return 0;
 }
