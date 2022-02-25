@@ -69,33 +69,35 @@ auto wordMatch (char attempt[5], char answer[5])
                                         if (attempt[counter] == i)
                                         {
                                         alphaBet[i]++;
-
                                         }
                                 }
+                        cout << alphaBet[tolower(attempt[counter])] << "alphaBet[tolower(attempt[counter]" << endl;
                         if (tolower(attempt[counter]) == tolower(answer[counter]))
                         {
                                 BothRow[counter] = tolower(attempt[counter]);
                                 BothRow[counter+5] = "G";
                                 winner++;
+                                cout << " HERE 1" << endl;
                         } 
-                        else if (alphaBet[tolower(attempt[counter] ) ] > 0)
+                        else if (alphaBet[tolower(attempt[counter])] > 0)
                                 {
                                         for (int counter = 0; counter < 5; ++counter) 
                                         {
                                                 
-                                                if ((BothRow[counter+5] != "G") && ( alphaBet[tolower(attempt[counter]) ] > 0))
+                                                if ((BothRow[counter+5] != "G") && ( alphaBet[tolower(attempt[counter]) ] > 1))
                                                 {
                                                         BothRow[counter+5] = "Y";
-                                                        attempt[counter]--;
                                                         BothRow[counter] = tolower(attempt[counter]);
+                                                        alphaBet[attempt[counter]]--; 
+                                                        cout << " HERE 2" << endl;
                                                 }
                                         }
                                 }       
-                        else {
-                        BothRow[counter] = tolower(attempt[counter]);
+                        else if ((BothRow[counter+5] != "G") || (BothRow[counter+5] != "Y")) {
                         BothRow[counter+5] = "B";
+                        BothRow[counter] = tolower(attempt[counter]);
+                        cout << " HERE 3" << endl;
                         }
-                         //BothRow[counter] = tolower(attempt[counter]);
                 }
                 if (winner == 5)
                 {
@@ -112,7 +114,7 @@ auto UserGuess () {
         char* inputGuess = new char[5];
         std::cout << "Please enter your guess" << endl;
         cin >> inputGuess;
-        //cout << "You have entered: " << inputGuess << endl;
+        cout << "You have entered: " << inputGuess << endl;
         return inputGuess;
 }
 
@@ -152,24 +154,26 @@ for (int TryNum=0; TryNum < 6; TryNum++ )
        TwoRow = wordMatch(inputGuess,newWord);
         for (int counter = 0; counter < 5; ++counter) 
         {
-                Pattern[TryNum] = Pattern[TryNum] + TwoRow[counter];
+               // Pattern[TryNum] = Pattern[TryNum] + TwoRow[counter];
+                cout << TwoRow[counter];
         }
         UsedLetters[TryNum] = Pattern[TryNum] + UsedLetters[TryNum];
         for (int counter = 5; counter < 10; ++counter) 
         {
-                Color[TryNum] = Color[TryNum] + TwoRow[counter];
+               // Color[TryNum] = Color[TryNum] + TwoRow[counter];
+                cout << TwoRow[counter];
         }
-        UsedLetters[TryNum] = Color[TryNum] + UsedLetters[TryNum];
+        //UsedLetters[TryNum] = Color[TryNum] + UsedLetters[TryNum];
         //cout << Pattern[TryNum] << endl;
         //cout << Color[TryNum] << endl;
-        cout << endl << "Guesses so far: " << endl;
-        for (int counter = TryNum; counter >= 0; counter--)
-        {
-        cout << UsedLetters[counter].substr(5,10);
+        //cout << endl << "Guesses so far: " << endl;
+        //for (int counter = 0; counter < TryNum; counter++)
+        //{
+        //cout << UsedLetters[counter].substr(5,10);
+        //cout << endl;
+        //cout << UsedLetters[counter].substr(0,5);
         cout << endl;
-        cout << UsedLetters[counter].substr(0,5);
-        cout << endl;
-        }
+       // }
 
 }
 return 0;
