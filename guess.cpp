@@ -56,55 +56,71 @@ auto JDate ( int M, int D)
 auto wordMatch (char attempt[5], char answer[5])
 {
         int winner;
-        map<char, int> alphaBet;
         string* BothRow = new string[10];
-         for (char i = 'a'; i <= 'z'; i++)
+        string NewAnswer;
+        string NewAttempt;
+        //map_count = number of times that letter appears
+        //map_1 = 2 (first letter in attempt occurs 2 rimes in attempt)
+        std::map<int, int> map_;
+        size_t found;
+        size_t found2;
+        int howmany;
+
+        for (int counter=0; counter < 5; counter++) {
+                NewAnswer = NewAnswer + answer[counter];
+        }
+        for (int counter=0; counter < 5; counter++) {
+                NewAttempt = NewAttempt + answer[counter];
+        }
+        for (int counter=0; counter < 5; counter++) {
+        howmany = count(NewAttempt.begin(), NewAttempt.end(), attempt[counter]);
+        map_.insert(pair<int, int>(counter, howmany));
+        }
+
+        for (int counter=0; counter <5; counter++) {
+                BothRow[counter] = attempt[counter];
+        }
+
+       for (int counter=0; counter < 5; counter++)
                 {
-                alphaBet[i] = 0;
-                }
-        for (int counter = 0; counter < 5; ++counter) 
-                {
-                                for (char i = 'a'; i <= 'z'; i++)
-                                {
-                                        if (attempt[counter] == i)
-                                        {
-                                        alphaBet[i]++;
-                                        }
-                                }
-                        cout << alphaBet[tolower(attempt[counter])] << "alphaBet[tolower(attempt[counter]" << endl;
-                        if (tolower(attempt[counter]) == tolower(answer[counter]))
+                        if (answer[counter] == attempt[counter]) 
                         {
-                                BothRow[counter] = tolower(attempt[counter]);
-                                BothRow[counter+5] = "G";
-                                winner++;
-                                cout << " HERE 1" << endl;
-                        } 
-                        else if (alphaBet[tolower(attempt[counter])] > 0)
-                                {
-                                        for (int counter = 0; counter < 5; ++counter) 
-                                        {
-                                                
-                                                if ((BothRow[counter+5] != "G") && ( alphaBet[tolower(attempt[counter]) ] > 1))
-                                                {
-                                                        BothRow[counter+5] = "Y";
-                                                        BothRow[counter] = tolower(attempt[counter]);
-                                                        alphaBet[attempt[counter]]--; 
-                                                        cout << " HERE 2" << endl;
-                                                }
-                                        }
-                                }       
-                        else if ((BothRow[counter+5] != "G") || (BothRow[counter+5] != "Y")) {
-                        BothRow[counter+5] = "B";
-                        BothRow[counter] = tolower(attempt[counter]);
-                        cout << " HERE 3" << endl;
+                        BothRow[counter+5] = "G";
+                        winner++;
+                        //map_[counter]--;
                         }
+                        else if ((BothRow[counter+5] != "G") && (map_[counter] == 1))
+                        {
+                        cout << "HERE 1" << endl;
+                        int newsizes = NewAnswer.size();
+                        //string slimAnswer = 
+                        found = NewAnswer.substr(counter+1, newsizes).find(attempt[counter]);
+                        found2 = NewAttempt.substr(counter+1, newsizes).find(attempt[counter]);
+                                if ((found != string::npos) && (found2 != string::npos))
+                                {
+                                BothRow[counter+5] = "Y";
+                                //map_[counter]--;
+                                }
+                                else BothRow[counter+5] = "B";  
+                        }
+                        else if (map_[counter] > 1)
+                        {
+                        cout << "HERE 2" << endl;
+                        int newsizes = NewAnswer.size();
+                        found = NewAnswer.substr(counter+1, newsizes).find(attempt[counter]);
+                                if (found != string::npos) 
+                                {
+                                cout << "HERE 3" << endl;
+                                BothRow[counter+5] = "Y";
+                                //map_[counter]--;
+                                }
+                        } 
                 }
-                if (winner == 5)
+        if (winner == 5)
                 {
-                        cout << "You are a winner!" << endl;
-                        exit(0);
+                cout << "You are a winner!" << endl;
+                exit(0);
                 }
- 
 
         return BothRow;
 }
@@ -147,33 +163,33 @@ TheWord.erase(std::remove(TheWord.begin(), TheWord.end(), '\n'), TheWord.end());
     // copying the contents of the
     // string to char array
     strcpy(newWord, TheWord.c_str());
-//cout << "Today's word is " << newWord ;
+    cout << "Today's word is " << newWord ;
 for (int TryNum=0; TryNum < 6; TryNum++ ) 
 {
        inputGuess = UserGuess();
        TwoRow = wordMatch(inputGuess,newWord);
         for (int counter = 0; counter < 5; ++counter) 
         {
-               // Pattern[TryNum] = Pattern[TryNum] + TwoRow[counter];
-                cout << TwoRow[counter];
+                Pattern[TryNum] = Pattern[TryNum] + TwoRow[counter];
+                //cout << TwoRow[counter] << " 1st ";
         }
         UsedLetters[TryNum] = Pattern[TryNum] + UsedLetters[TryNum];
         for (int counter = 5; counter < 10; ++counter) 
         {
-               // Color[TryNum] = Color[TryNum] + TwoRow[counter];
-                cout << TwoRow[counter];
+                Color[TryNum] = Color[TryNum] + TwoRow[counter];
+                //cout << TwoRow[counter] << " 2nd ";
         }
-        //UsedLetters[TryNum] = Color[TryNum] + UsedLetters[TryNum];
-        //cout << Pattern[TryNum] << endl;
-        //cout << Color[TryNum] << endl;
-        //cout << endl << "Guesses so far: " << endl;
-        //for (int counter = 0; counter < TryNum; counter++)
-        //{
-        //cout << UsedLetters[counter].substr(5,10);
-        //cout << endl;
-        //cout << UsedLetters[counter].substr(0,5);
+        UsedLetters[TryNum] = Color[TryNum] + UsedLetters[TryNum];
+        cout << Pattern[TryNum] << endl;
+        cout << Color[TryNum] << endl;
+        cout << endl << "Guesses so far: " << endl;
+        for (int counter = 0; counter < TryNum; counter++)
+        {
+        cout << UsedLetters[counter].substr(5,10);
         cout << endl;
-       // }
+        cout << UsedLetters[counter].substr(0,5);
+        cout << endl;
+        }
 
 }
 return 0;
