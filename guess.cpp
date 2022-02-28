@@ -1,36 +1,33 @@
 #include <iostream>
-//#include <string>
 #include <sstream>
 #include <fstream>
 #include <ctime>
 #include <algorithm>
 #include <cstring>
-//#include <ios>
-//#include <limits>
 #include<map>
 
 using namespace std;
 
 auto ReadList(int JDay)
 {
-   //load the text file and put it into a single string:
-    std::ifstream in("words.txt");
+   //Load the text file in a single string:
+    std::ifstream inputs("words.txt");
     std::stringstream buffer;
-    buffer << in.rdbuf();
+    buffer << inputs.rdbuf();
     std::string WordList = buffer.str();
-    //create variables that will act as "cursors". we'll take everything between them.
-    size_t pos1 = 0;
-    size_t pos2;
-    //create the array to store the strings.
-    std::string str[5757];
-    for (int x=0; x<=5757; x++){
-        pos2 = WordList.find("|", pos1); //search for the bar "|". pos2 will be where the bar was found.
-        str[x] = WordList.substr(pos1, (pos2-pos1)); //make a substring, wich is nothing more 
+    //create variables for cursors. 
+    size_t position1 = 0;
+    size_t position2 = 0;
+    //create the array to store
+    std::string string_list[5757];
+    for (int counter=0; counter<=5757; counter++){
+        position2 = WordList.find("|", position1); //search for the bar "|". pos2 will be where the bar was found.
+        string_list[counter] = WordList.substr(position1, (position2-position1)); //make a substring, wich is nothing more 
                                               //than a copy of a fragment of the big string.
-        pos1 = pos2+1; // sets pos1 to the next character after pos2. 
+        position1 = position2+1; // sets pos1 to the next character after pos2. 
                          //so, it can start searching the next bar |.
     }
-    std::string TodaysWord = str[JDay];
+    std::string TodaysWord = string_list[JDay];
     //cout << " " << TodaysWord << endl;
 return TodaysWord;
 }
@@ -108,7 +105,7 @@ auto wordMatch (char attempt[5], char answer[5])
 
         if (winner == 5)
                 {
-                cout << "You are a winner!" << endl;
+                cout << "Congratulations! You solved today's game!"<< endl;
                 exit(0);
                 }
 
@@ -118,9 +115,9 @@ auto wordMatch (char attempt[5], char answer[5])
 auto UserGuess () {
         //store guess given user input
         char* inputGuess = new char[5];
-        std::cout << "Please enter your guess" << endl;
+        std::cout << "To play today's game. Please enter a 5 letter word." << endl;
         cin >> inputGuess;
-        cout << "You have entered: " << inputGuess << endl;
+        cout << "Your entry is: " << inputGuess << endl;
         return inputGuess;
 }
 
@@ -143,17 +140,16 @@ JulianDay = JDate (MO,DY);
 string TheWord = ReadList(JulianDay);
 TheWord.pop_back();
 TheWord.erase(std::remove(TheWord.begin(), TheWord.end(), '\n'), TheWord.end());
-//cout << TheWord << " THE W " << endl;
 // declaring character array
 // copying the contents of the
 // string to char array
-    int numlen = TheWord.length();
-    // declaring character array
-    char* newWord = new char [numlen + 1];
-    // copying the contents of the
-    // string to char array
-    strcpy(newWord, TheWord.c_str());
-    cout << "Today's word is " << newWord ;
+int numlen = TheWord.length();
+// declaring character array
+char* newWord = new char [numlen + 1];
+// copying the contents of the
+// string to char array
+strcpy(newWord, TheWord.c_str());
+cout << "Today's word is " << newWord ;
 for (int TryNum=0; TryNum < 6; TryNum++ ) 
 {
        inputGuess = UserGuess();
@@ -170,9 +166,10 @@ for (int TryNum=0; TryNum < 6; TryNum++ )
                 //cout << TwoRow[counter] << " 2nd ";
         }
         UsedLetters[TryNum] = Color[TryNum] + UsedLetters[TryNum];
-        cout << Pattern[TryNum] << endl;
-        cout << Color[TryNum] << endl;
-        cout << endl << "Guesses so far: " << endl;
+        //cout << Pattern[TryNum] << endl;
+        //cout << Color[TryNum] << endl;
+        cout << "Try again! " << endl;
+        cout << endl << "You have " << TryNum + 5 << " plays remaining." << endl << "Plays so far: " << endl;
         for (int counter = 0; counter < TryNum; counter++)
         {
         cout << UsedLetters[counter].substr(5,10);
