@@ -85,7 +85,7 @@ front	|
 voice	|
 kinds	|
 makes	|
-comes	|
+cooes	|
 close	|
 power	|
 lived	|

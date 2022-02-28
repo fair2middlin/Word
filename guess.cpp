@@ -59,63 +59,53 @@ auto wordMatch (char attempt[5], char answer[5])
         string* BothRow = new string[10];
         string NewAnswer;
         string NewAttempt;
-        //map_count = number of times that letter appears
-        //map_1 = 2 (first letter in attempt occurs 2 rimes in attempt)
-        std::map<int, int> map_;
-        size_t found;
-        size_t found2;
+        size_t foundAnsw1;
+        size_t foundAnsw2;
+        size_t foundAnsw3;
+        size_t foundAnsw4;
+        size_t foundAnsw5;
         int howmany;
+        int sizes;
+        int IntTimes=0;
 
         for (int counter=0; counter < 5; counter++) {
                 NewAnswer = NewAnswer + answer[counter];
         }
+        
         for (int counter=0; counter < 5; counter++) {
-                NewAttempt = NewAttempt + answer[counter];
+                NewAttempt = NewAttempt + attempt[counter];
         }
-        for (int counter=0; counter < 5; counter++) {
-        howmany = count(NewAttempt.begin(), NewAttempt.end(), attempt[counter]);
-        map_.insert(pair<int, int>(counter, howmany));
-        }
-
         for (int counter=0; counter <5; counter++) {
                 BothRow[counter] = attempt[counter];
         }
-
        for (int counter=0; counter < 5; counter++)
-                {
-                        if (answer[counter] == attempt[counter]) 
-                        {
-                        BothRow[counter+5] = "G";
-                        winner++;
-                        //map_[counter]--;
+                {   
+                        if (answer[counter] == attempt[counter]) { BothRow[counter+5] = "G"; winner++;  }
+
+                        foundAnsw1 = NewAnswer.find(attempt[counter]);
+
+                        if ((foundAnsw1  != string::npos)) {
+                        
+                        foundAnsw1 = NewAnswer.substr(0,1).find(attempt[counter]); 
+                        if ((foundAnsw1  != string::npos) && (BothRow[counter+5] != "G") ) {BothRow[counter+5] = "Y"; IntTimes++; cout << foundAnsw1 << "times" << IntTimes << endl; }
+
+                        foundAnsw2 = NewAnswer.substr(1,1).find(attempt[counter]);
+                        if ((foundAnsw2 != string::npos) && (BothRow[counter+5] != "G") ) {BothRow[counter+5] = "Y";  IntTimes++; cout << foundAnsw2  << "times" << IntTimes << endl; }
+
+                        foundAnsw3 = NewAnswer.substr(2,1).find(attempt[counter]);
+                        if ((foundAnsw3 != string::npos) && (BothRow[counter+5] != "G") ) {BothRow[counter+5] = "Y";  IntTimes++; cout << foundAnsw3 << "times" << IntTimes << endl; }
+
+                        foundAnsw4 = NewAnswer.substr(3,1).find(attempt[counter]);
+                        if ((foundAnsw4 != string::npos) && (BothRow[counter+5] != "G") ) {BothRow[counter+5] = "Y";  IntTimes++; cout << foundAnsw4 << "times" << IntTimes << endl; }
+
+                        foundAnsw5 = NewAnswer.substr(4,1).find(attempt[counter]);
+                        if ((foundAnsw5 != string::npos) && (BothRow[counter+5] != "G") ) {BothRow[counter+5] = "Y";  IntTimes++; cout << foundAnsw5 << "times" << IntTimes  << endl; }
+                                
                         }
-                        else if ((BothRow[counter+5] != "G") && (map_[counter] == 1))
-                        {
-                        cout << "HERE 1" << endl;
-                        int newsizes = NewAnswer.size();
-                        //string slimAnswer = 
-                        found = NewAnswer.substr(counter+1, newsizes).find(attempt[counter]);
-                        found2 = NewAttempt.substr(counter+1, newsizes).find(attempt[counter]);
-                                if ((found != string::npos) && (found2 != string::npos))
-                                {
-                                BothRow[counter+5] = "Y";
-                                //map_[counter]--;
-                                }
-                                else BothRow[counter+5] = "B";  
-                        }
-                        else if (map_[counter] > 1)
-                        {
-                        cout << "HERE 2" << endl;
-                        int newsizes = NewAnswer.size();
-                        found = NewAnswer.substr(counter+1, newsizes).find(attempt[counter]);
-                                if (found != string::npos) 
-                                {
-                                cout << "HERE 3" << endl;
-                                BothRow[counter+5] = "Y";
-                                //map_[counter]--;
-                                }
-                        } 
+
+                        else BothRow[counter+5] = "B";
                 }
+
         if (winner == 5)
                 {
                 cout << "You are a winner!" << endl;
