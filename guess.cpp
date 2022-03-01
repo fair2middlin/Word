@@ -23,6 +23,7 @@ using namespace std;
 
 string readsFileString(const string& path) {
     ifstream word_file(path);
+    word_file.clear();
     if (!word_file.is_open()) {
         cerr << "Could not open the file - '"
              << path << "'" << endl;
@@ -36,12 +37,13 @@ auto ReadList(int JDay)
    //Load the text file in a single string:
     //std::ifstream inputs("words.txt");
     std::string WordList = readsFileString("words.txt");
+    int sizes = WordList.size();
     //create variables for cursors. 
     size_t position1 = 0;
     size_t position2 = 0;
     //create the array to store
-    std::string string_list[5757];
-    for (int counter=0; counter<=5757; counter++){
+    std::string string_list[sizes]={"O"};
+    for (int counter=0; counter<=sizes; counter++){
         position2 = WordList.find("|", position1);                     //search for the pipe. position2 will be where the bar was found
         string_list[counter] = WordList.substr(position1, (position2-position1)); //now a substring
                                                                         //than a copy of a word of the string
