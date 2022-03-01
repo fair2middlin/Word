@@ -21,7 +21,7 @@ If not, see <https://www.gnu.org/licenses/>.
 
 using namespace std;
 
-string readsFileString(const string& path) {
+string readsFileString(string path) {
     ifstream word_file(path);
     word_file.clear();
     if (!word_file.is_open()) {
@@ -29,7 +29,9 @@ string readsFileString(const string& path) {
              << path << "'" << endl;
         exit(EXIT_FAILURE);
     }
-    return string((std::istreambuf_iterator<char>(word_file)), std::istreambuf_iterator<char>());
+    std::string ReadData = string((std::istreambuf_iterator<char>(word_file)), std::istreambuf_iterator<char>());
+    word_file.close();
+    return ReadData;
 }
 
 auto ReadList(int JDay)
