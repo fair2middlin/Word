@@ -84,19 +84,19 @@ auto wordMatch (char attempt[5], char answer[5])
                         if ((foundAnsw1  != string::npos)) {
                         
                         foundAnsw1 = NewAnswer.substr(0,1).find(attempt[counter]); 
-                        if ((foundAnsw1  != string::npos) && (BothRow[counter+5] != "G") ) {BothRow[counter+5] = "Y"; IntTimes++; cout << foundAnsw1 << "times" << IntTimes << endl; }
+                        if ((foundAnsw1  != string::npos) && (BothRow[counter+5] != "G") ) BothRow[counter+5] = "Y"; IntTimes++;
 
                         foundAnsw2 = NewAnswer.substr(1,1).find(attempt[counter]);
-                        if ((foundAnsw2 != string::npos) && (BothRow[counter+5] != "G") ) {BothRow[counter+5] = "Y";  IntTimes++; cout << foundAnsw2  << "times" << IntTimes << endl; }
+                        if ((foundAnsw2 != string::npos) && (BothRow[counter+5] != "G") ) BothRow[counter+5] = "Y";  IntTimes++;
 
                         foundAnsw3 = NewAnswer.substr(2,1).find(attempt[counter]);
-                        if ((foundAnsw3 != string::npos) && (BothRow[counter+5] != "G") ) {BothRow[counter+5] = "Y";  IntTimes++; cout << foundAnsw3 << "times" << IntTimes << endl; }
+                        if ((foundAnsw3 != string::npos) && (BothRow[counter+5] != "G") ) BothRow[counter+5] = "Y";  IntTimes++;
 
                         foundAnsw4 = NewAnswer.substr(3,1).find(attempt[counter]);
-                        if ((foundAnsw4 != string::npos) && (BothRow[counter+5] != "G") ) {BothRow[counter+5] = "Y";  IntTimes++; cout << foundAnsw4 << "times" << IntTimes << endl; }
+                        if ((foundAnsw4 != string::npos) && (BothRow[counter+5] != "G") ) BothRow[counter+5] = "Y";  IntTimes++;
 
                         foundAnsw5 = NewAnswer.substr(4,1).find(attempt[counter]);
-                        if ((foundAnsw5 != string::npos) && (BothRow[counter+5] != "G") ) {BothRow[counter+5] = "Y";  IntTimes++; cout << foundAnsw5 << "times" << IntTimes  << endl; }
+                        if ((foundAnsw5 != string::npos) && (BothRow[counter+5] != "G") ) BothRow[counter+5] = "Y";  IntTimes++;
                                 
                         }
 
@@ -106,6 +106,7 @@ auto wordMatch (char attempt[5], char answer[5])
         if (winner == 5)
                 {
                 cout << "Congratulations! You solved today's game!"<< endl;
+                cout << "Today's word is " << NewAnswer << "." << endl;
                 exit(0);
                 }
 
@@ -128,10 +129,10 @@ char* inputGuess ;
 time_t now = time(0);
 int MO,DY,JulianDay; //MO = months DY = days JulianDay = Julian Day Number
 string* TwoRow = new string[10];
-string* UsedLetters = new string[30];
 string* Pattern =  new string[6];
 string* Color = new string[6];
 time_t ttime = time(0);
+map<string, string> letterMap;
 tm *local_time = localtime(&ttime);
 MO = 1 + local_time->tm_mon;
 DY = local_time->tm_mday;
@@ -149,7 +150,7 @@ char* newWord = new char [numlen + 1];
 // copying the contents of the
 // string to char array
 strcpy(newWord, TheWord.c_str());
-cout << "Today's word is " << newWord ;
+//cout << "Today's word is " << newWord ;
 for (int TryNum=0; TryNum < 6; TryNum++ ) 
 {
        inputGuess = UserGuess();
@@ -159,25 +160,19 @@ for (int TryNum=0; TryNum < 6; TryNum++ )
                 Pattern[TryNum] = Pattern[TryNum] + TwoRow[counter];
                 //cout << TwoRow[counter] << " 1st ";
         }
-        UsedLetters[TryNum] = Pattern[TryNum] + UsedLetters[TryNum];
         for (int counter = 5; counter < 10; ++counter) 
         {
                 Color[TryNum] = Color[TryNum] + TwoRow[counter];
                 //cout << TwoRow[counter] << " 2nd ";
         }
-        UsedLetters[TryNum] = Color[TryNum] + UsedLetters[TryNum];
+        letterMap.insert({Pattern[TryNum], Color[TryNum]});
         //cout << Pattern[TryNum] << endl;
         //cout << Color[TryNum] << endl;
         cout << "Try again! " << endl;
-        cout << endl << "You have " << TryNum + 5 << " plays remaining." << endl << "Plays so far: " << endl;
-        for (int counter = 0; counter < TryNum; counter++)
-        {
-        cout << UsedLetters[counter].substr(5,10);
-        cout << endl;
-        cout << UsedLetters[counter].substr(0,5);
-        cout << endl;
+        cout << endl << "You have " << 5-TryNum << " plays remaining." << endl << endl << "Plays so far: " << endl << endl;
+        for (auto i = letterMap.begin(); i != letterMap.end(); ++i) {
+        cout << i->first << ' ' << i->second << '\n';
         }
-
 }
 return 0;
 }
