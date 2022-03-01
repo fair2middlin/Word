@@ -40,6 +40,7 @@ auto ReadList(int JDay)
     //std::ifstream inputs("words.txt");
     std::string WordList = readsFileString("words.txt");
     int sizes = WordList.size();
+    cout.flush();
     //create variables for cursors. 
     size_t position1 = 0;
     size_t position2 = 0;
