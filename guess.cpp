@@ -21,24 +21,32 @@ If not, see <https://www.gnu.org/licenses/>.
 
 using namespace std;
 
+string readsFileString(const string& path) {
+    ifstream word_file(path);
+    if (!word_file.is_open()) {
+        cerr << "Could not open the file - '"
+             << path << "'" << endl;
+        exit(EXIT_FAILURE);
+    }
+    return string((std::istreambuf_iterator<char>(word_file)), std::istreambuf_iterator<char>());
+}
+
 auto ReadList(int JDay)
 {
    //Load the text file in a single string:
-    std::ifstream inputs("words.txt");
-    std::stringstream buffer;
-    buffer << inputs.rdbuf();
-    std::string WordList = buffer.str();
+    //std::ifstream inputs("words.txt");
+    std::string WordList = readsFileString("words.txt");
     //create variables for cursors. 
     size_t position1 = 0;
     size_t position2 = 0;
     //create the array to store
     std::string string_list[5757];
     for (int counter=0; counter<=5757; counter++){
-        position2 = WordList.find("|", position1); //search for the bar "|". pos2 will be where the bar was found.
-        string_list[counter] = WordList.substr(position1, (position2-position1)); //make a substring, wich is nothing more 
-                                              //than a copy of a fragment of the big string.
-        position1 = position2+1; // sets pos1 to the next character after pos2. 
-                         //so, it can start searching the next bar |.
+        position2 = WordList.find("|", position1);                     //search for the pipe. position2 will be where the bar was found
+        string_list[counter] = WordList.substr(position1, (position2-position1)); //now a substring
+                                                                        //than a copy of a word of the string
+        position1 = position2+1; // sets position1 to the next char after position2 
+                                 //start searching the next pipe
     }
     std::string TodaysWord = string_list[JDay];
     //cout << " " << TodaysWord << endl;
