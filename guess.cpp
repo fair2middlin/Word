@@ -46,12 +46,12 @@ auto ReadList(int JDay)
     size_t position2 = 0;
     //create the array to store
     std::string string_list[sizes]={"O"};
-    for (int counter=0; counter<=sizes; counter++){
+    for (int counter=0; counter<sizes; counter++){
         position2 = WordList.find("|", position1);                     //search for the pipe. position2 will be where the bar was found
         string_list[counter] = WordList.substr(position1, (position2-position1)); //now a substring
                                                                         //than a copy of a word of the string
         position1 = position2+1; // sets position1 to the next char after position2 
-                                 //start searching the next pipe
+                                     //start searching the next pipe
     }
     std::string TodaysWord = string_list[JDay];
     //cout << " " << TodaysWord << endl;
@@ -78,7 +78,7 @@ auto JDate ( int M, int D)
 
 auto wordMatch (char attempt[5], char answer[5])
 {
-        int winner;
+        int winner = 0;
         string* BothRow = new string[10];
         string NewAnswer;
         string NewAttempt;
@@ -128,7 +128,6 @@ auto wordMatch (char attempt[5], char answer[5])
 
                         else BothRow[counter+5] = "B";
                 }
-
         if (winner == 5)
                 {
                 cout << "Congratulations! You solved today's game!"<< endl;
