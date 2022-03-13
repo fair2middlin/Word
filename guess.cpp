@@ -87,48 +87,89 @@ auto wordMatch (char attempt[5], char answer[5])
         size_t foundAnsw3;
         size_t foundAnsw4;
         size_t foundAnsw5;
-        int howmany;
+        char AnsGus[2][5];
+        int ansOccur[5];
+        int aptOccur[5];
         int sizes;
-        int IntTimes=0;
 
         for (int counter=0; counter < 5; counter++) {
                 NewAnswer = NewAnswer + answer[counter];
+                AnsGus[0][counter] = answer[counter];
         }
-        
+
         for (int counter=0; counter < 5; counter++) {
                 NewAttempt = NewAttempt + attempt[counter];
+                ansOccur[counter] = std::count(NewAnswer.begin(), NewAnswer.end(), answer[counter]);
+                AnsGus[1][counter] = attempt[counter];
         }
         for (int counter=0; counter <5; counter++) {
                 BothRow[counter] = attempt[counter];
+                aptOccur[counter] = std::count(NewAttempt.begin(), NewAttempt.end(), attempt[counter]);
         }
-       for (int counter=0; counter < 5; counter++)
-                {   
-                        if (answer[counter] == attempt[counter]) { BothRow[counter+5] = "G"; winner++;  }
 
-                        foundAnsw1 = NewAnswer.find(attempt[counter]);
+        for (int counter=0; counter <5; counter++) 
+        {
+                        BothRow[counter+5] = "_";
+        }
 
-                        if ((foundAnsw1  != string::npos)) {
-                        
-                        foundAnsw1 = NewAnswer.substr(0,1).find(attempt[counter]); 
-                        if ((foundAnsw1  != string::npos) && (BothRow[counter+5] != "G") ) BothRow[counter+5] = "Y"; IntTimes++;
+        for (int a=0; a<5; a++)
+        {
+                for (int b=0; b<5; b++)
+                {
+                        //cout << AnsGus[1][a] << " ag 1a " << AnsGus[0][b] << " ag 0b " << endl;
+                        if (AnsGus[1][a]==AnsGus[0][b])
+                        {
 
-                        foundAnsw2 = NewAnswer.substr(1,1).find(attempt[counter]);
-                        if ((foundAnsw2 != string::npos) && (BothRow[counter+5] != "G") ) BothRow[counter+5] = "Y";  IntTimes++;
-
-                        foundAnsw3 = NewAnswer.substr(2,1).find(attempt[counter]);
-                        if ((foundAnsw3 != string::npos) && (BothRow[counter+5] != "G") ) BothRow[counter+5] = "Y";  IntTimes++;
-
-                        foundAnsw4 = NewAnswer.substr(3,1).find(attempt[counter]);
-                        if ((foundAnsw4 != string::npos) && (BothRow[counter+5] != "G") ) BothRow[counter+5] = "Y";  IntTimes++;
-
-                        foundAnsw5 = NewAnswer.substr(4,1).find(attempt[counter]);
-                        if ((foundAnsw5 != string::npos) && (BothRow[counter+5] != "G") ) BothRow[counter+5] = "Y";  IntTimes++;
-                                
+                        //cout << " 1st loop " << a << " a " << b << " b " << AnsGus[1][a] << " ag 1a " << AnsGus[0][b] << " ag 0b " << ansOccur[b] << " anso b " << aptOccur[b] << " apto b" << endl;  
                         }
+                        if ((AnsGus[1][a]==AnsGus[0][b] && (BothRow[b+5]!="G") && a==b))
+                        {
+                        BothRow[b+5]="G";
+                        winner++;
+                        ansOccur[b]--;
+                        //cout << winner << endl;
+                        }
+                        if ((AnsGus[1][a]==AnsGus[0][b] && (BothRow[b+5]!="G") && a!=b) && (ansOccur[b] > aptOccur[a]) )
+                        {
+                        BothRow[a+5]="Y";  
+                        //cout << " put Y 1 " << endl;
+                        ansOccur[b]--;
+                        }
+                        if ((AnsGus[1][a]==AnsGus[0][b] && (BothRow[b+5]!="G") && a!=b) && (aptOccur[a] > ansOccur[b]) )
+                        {
+                        BothRow[a+5]="B";  
+                        //cout << " put B 1 " << endl;
+                        aptOccur[a]--;
+                        }
+                }       
+                //cout << endl;
+                foundAnsw1 = NewAnswer.find(attempt[a]);
 
-                        else BothRow[counter+5] = "B";
+                if ((foundAnsw1  == string::npos)) {
+                        BothRow[a+5]="B";
                 }
-        if (winner == 5)
+
+        }
+       for (int a=0; a<5; a++)
+        {
+                for (int b=0; b<5; b++)
+                {
+                        //cout << AnsGus[0][a] << " ag 0a " << AnsGus[1][b] << " ag 1b " << endl;
+                        if (AnsGus[0][a]==AnsGus[1][b])
+                        {
+                                //cout << "2nd loop " << a << " a " << b << " b " << AnsGus[0][a] << " ag 0a " << AnsGus[1][b] << " ag 1b " << ansOccur[a] << " anso a " << aptOccur[b] << " apto b" << endl;
+                                if ( (AnsGus[0][a]==AnsGus[1][b]) && (BothRow[b+5]!="G")  && (ansOccur[a] >= aptOccur[b]) )
+                                {
+                                BothRow[b+5]="Y";  
+                                //cout << " put Y 2 " << endl;
+                                ansOccur[a]--;
+                                }
+                        }
+                }
+                //cout << endl;
+        }
+
+        if (winner >= 5)
                 {
                 cout << "Congratulations! You solved today's game!"<< endl;
                 cout << "Today's word is " << NewAnswer << "." << endl;
@@ -141,7 +182,7 @@ auto wordMatch (char attempt[5], char answer[5])
 auto UserGuess () {
         //store guess given user input
         char* inputGuess = new char[5];
-        std::cout << "To play today's game. Please enter a 5 letter word." << endl;
+        std::cout << "To play today's game, please enter a 5 letter word." << endl;
         cin >> inputGuess;
         cout << "Your entry is: " << inputGuess << endl;
         return inputGuess;
