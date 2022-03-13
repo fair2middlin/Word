@@ -157,7 +157,8 @@ auto wordMatch (char attempt[5], char answer[5])
                         //cout << AnsGus[0][a] << " ag 0a " << AnsGus[1][b] << " ag 1b " << endl;
                         if (AnsGus[0][a]==AnsGus[1][b])
                         {
-                                //cout << "2nd loop " << a << " a " << b << " b " << AnsGus[0][a] << " ag 0a " << AnsGus[1][b] << " ag 1b " << ansOccur[a] << " anso a " << aptOccur[b] << " apto b" << endl;
+                                //cout << "2nd loop " << a << " a " << b << " b " << AnsGus[0][a] << " ag 0a " << AnsGus[1][b] << " ag 1b " << endl;
+                                //cout << ansOccur[a] << " anso a " << aptOccur[b] << " apto b" << endl;
                                 if ( (AnsGus[0][a]==AnsGus[1][b]) && (BothRow[b+5]!="G")  && (ansOccur[a] >= aptOccur[b]) )
                                 {
                                 BothRow[b+5]="Y";  
