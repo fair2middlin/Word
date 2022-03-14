@@ -39,12 +39,13 @@ auto ReadList(int JDay)
    //Load the text file in a single string:
     //std::ifstream inputs("words.txt");
     std::string WordList = readsFileString("words.txt");
-    int sizes = WordList.size();
+    size_t sizes = WordList.size();
     cout.flush();
     //create variables for cursors. 
     size_t position1 = 0;
     size_t position2 = 0;
     //create the array to store
+    
     std::string string_list[sizes]={"O"};
     for (int counter=0; counter<sizes; counter++){
         position2 = WordList.find("|", position1);                     //search for the pipe. position2 will be where the bar was found
