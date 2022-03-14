@@ -180,11 +180,21 @@ auto wordMatch (char attempt[5], char answer[5])
         return BothRow;
 }
 
+bool check_alpha(char str[5]) {
+   for (int i = 0; i < 5; i++)
+   if (isalpha(str[i]) == false)
+
+   {   
+       cout << "Please enter a 5 letter word: " << endl;
+       return false;
+   }
+      return true;
+}
+
 auto UserGuess () {
         //store guess given user input
         char* inputGuess = new char[5];
-        std::cout << "To play today's game, please enter a 5 letter word." << endl;
-        cin >> inputGuess;
+        while (!check_alpha(inputGuess)) cin >> inputGuess;
         cout << "Your entry is: " << inputGuess << endl;
         return inputGuess;
 }
