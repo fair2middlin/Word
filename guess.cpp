@@ -165,6 +165,10 @@ auto wordMatch (char attempt[5], char answer[5])
                                 //cout << " put Y 2 " << endl;
                                 ansOccur[a]--;
                                 }
+                                if ( (AnsGus[0][a]==AnsGus[1][b]) && (BothRow[b+5]!="G" && BothRow[b+5]!="Y") && (ansOccur[a] < aptOccur[b]) )
+                                { 
+                                       BothRow[b+5]="B";
+                                }
                         }
                 }
                 //cout << endl;
