@@ -14,13 +14,10 @@
 
 from argparse import ArgumentDefaultsHelpFormatter
 from fileinput import filename
-from itertools import count
-from operator import countOf
 import os
 import sys
 from datetime import date
 import datetime
-import re
 
 def ReadList():
     fileName='words.txt'
